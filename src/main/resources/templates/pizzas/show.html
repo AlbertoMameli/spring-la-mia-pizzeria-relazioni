@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzas index</title>
+
+    <th:block th:replace="~{fragments/head :: head}">
+    </th:block>
+    <link rel="stylesheet" href="stile.css">
+</head>
+
+<body>
+    <main class="container">
+        <section class="row upper">
+            <div class="col-12 p-5 mb-3">
+                <h1 class="text-center fw-bold">
+                    Pizza details page: [[${pizza.name}]]
+                </h1>
+            </div>
+        </section>
+        <section class="row pizza-viewer justify-content-center">
+            <div class="col-8" th:object="${pizza}">
+                <article class="card">
+                    <h5 class="card-header">Price: [[*{price}]]0$</h5>
+                    <div class="card-img-top">
+                        <img th:src="*{imgUrl}" class="w-50" alt="Pizza's picture">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">[[*{name}]]</h5>
+                        <p class="card-text">[[*{description}]]</p>
+                        <a th:href="@{/pizzas}" class="btn btn-primary">Back</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+</body>
+
+</html>
