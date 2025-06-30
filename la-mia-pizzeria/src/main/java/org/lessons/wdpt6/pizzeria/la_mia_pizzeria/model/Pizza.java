@@ -1,45 +1,49 @@
 package org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model;
 
 import java.io.Serializable;
+import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-//creazione tabella
 @Entity
 @Table(name = "pizzas")
 public class Pizza implements Serializable {
 
-    // creazione colonne
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @NotNull
     @NotBlank(message = "Name must not be null, blank or empty")
     private String name;
+
     @Lob
     @NotBlank(message = "Description must not be null, blank or empty")
     private String description;
+
     @Lob
     @NotBlank(message = "Image URL must not be null, blank or empty")
     private String imageUrl;
 
-    
     @Min(value = 0, message = "The price must be greater than zero")
     private float price;
+
+    // Relazione 1 a molti con Sconto (un pizza può avere più sconti)
+    //cascade = CascadeType.ALL  elimina o salva una pizza, salva/elimina anche gli sconti collegati.
+    //orphanRemoval = true rimuove dallo sconti quelli non più collegati alla Pizza
+    @OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sconto> sconti;
 
     public Pizza() {
     }
 
+    // Getters e Setters
+
     public Integer getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Integer id) {
@@ -47,7 +51,7 @@ public class Pizza implements Serializable {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -55,7 +59,7 @@ public class Pizza implements Serializable {
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public void setDescription(String description) {
@@ -63,7 +67,7 @@ public class Pizza implements Serializable {
     }
 
     public String getImgUrl() {
-        return this.imageUrl;
+        return imageUrl;
     }
 
     public void setImgUrl(String imgUrl) {
@@ -71,11 +75,18 @@ public class Pizza implements Serializable {
     }
 
     public float getPrice() {
-        return this.price;
+        return price;
     }
 
     public void setPrice(float price) {
         this.price = price;
     }
 
+    public List<Sconto> getSconti() {
+        return sconti;
+    }
+
+    public void setSconti(List<Sconto> sconti) {
+        this.sconti = sconti;
+    }
 }

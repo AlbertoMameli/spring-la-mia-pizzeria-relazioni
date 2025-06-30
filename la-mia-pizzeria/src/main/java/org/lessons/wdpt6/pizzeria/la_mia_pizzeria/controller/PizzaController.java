@@ -1,8 +1,13 @@
 package org.lessons.wdpt6.pizzeria.la_mia_pizzeria.controller;
 
+import java.util.Optional;
+
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Pizza;
+import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Sconto;
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
 
@@ -86,4 +92,25 @@ public class PizzaController {
 
         return "redirect:/pizzas";
     }
+
+
+   @GetMapping("/{id}/offerta")
+public String offerta(@PathVariable("id") Integer id, Model model) {
+    Optional<Pizza> pizzaOptional = pizzaRepository.findById(id);
+
+    if (pizzaOptional.isEmpty()) {
+        return "redirect:/pizzas";
+    }
+
+    Pizza pizza = pizzaOptional.get();
+
+    // Creo un nuovo Sconto associato alla pizza
+    Sconto sconto = new Sconto();
+    sconto.setPizza(pizza);
+
+    model.addAttribute("sconto", sconto);
+
+    return "offerte/create"; // la view si trova in templates/offerte/create.html
+}
+
 }

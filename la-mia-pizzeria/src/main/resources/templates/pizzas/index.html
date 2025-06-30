@@ -47,6 +47,8 @@
                             <td th:text="*{description}" />
                             <td th:text="|*{price}0$|" />
                             <td>
+                                
+
                                 <a th:href="@{/pizzas/{id}(id=*{id})}" class="btn btn-primary btn-sm">Show</a>
                                 <a th:href="@{/pizzas/edit/{id}(id=*{id})}" class="btn btn-success btn-sm ">Edit</a>
                                 <button type="button" class="d-inline btn btn-warning btn-sm" data-bs-toggle="modal"
