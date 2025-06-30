@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzas index</title>
+    <th:block th:replace="~{fragments/head :: head}">
+    </th:block>
+    <link rel="stylesheet" href="stile.css">
+</head>
+
+<body>
+
+    <!--NavBar-->
+    <section th:insert = "fragments/navbar :: navbar"></section>
+
+
+    <main class="container">
+        <section class="upper row">
+            <div class="col-12">
+                <h1 class="card-title mb-4 p-4 text-center fw-bold">
+                    Pizza Management System
+                </h1>
+                <div class="buttons mb-3 d-flex px-4">
+                    <a th:href="@{/pizzas/create}" class="btn btn-primary ms-auto me-5">Create a new pizza</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="row books">
+            <div class="col-12">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Price</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="singlePizza : ${pizzas}" th:object="${singlePizza}">
+                            <td th:text="*{id}" />
+                            <td th:text="*{name}" />
+                            <td th:text="*{description}" />
+                            <td th:text="|*{price}0$|" />
+                            <td>
+                                <a th:href="@{/pizzas/{id}(id=*{id})}" class="btn btn-primary btn-sm">Show</a>
+                                <a th:href="@{/pizzas/edit/{id}(id=*{id})}" class="btn btn-success btn-sm ">Edit</a>
+                                <button type="button" class="d-inline btn btn-warning btn-sm" data-bs-toggle="modal"
+                                    th:data-bs-target="'#delete-modal-' + *{id}">
+                                    Delete
+                                </button>
+
+                                <!-- La modale nascosta che appare solo quando viene cliccato il bottone relativo -->
+                                <div class="modal fade" th:id="'delete-modal-' + *{id}" data-bs-backdrop="static"
+                                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Deletion of
+                                                    <strong>"[[*{name}]]"</strong></h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>
+                                                    Are you sure that you want to delete the pizza with name
+                                                    <strong>"[[*{name}]]"</strong>, and id: [[*{id}]]
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <form th:action="@{|/pizzas/delete/*{id}|}" method="post"
+                                                    class="d-inline">
+                                                    <button type="submit" class="btn btn-danger btn">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <th:block th:replace="~{fragments/footer :: scripts}">
+</body>
+
+</html>
