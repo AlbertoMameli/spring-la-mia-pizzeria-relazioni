@@ -1,60 +1,57 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizzas index</title>
-    <th:block th:replace="~{fragments/head :: head}">
-    </th:block>
-    <link rel="stylesheet" href="stile.css">
+    <meta charset="UTF-8" />
+    <title>Edit Offerta</title>
+    <th:block th:replace="~{fragments/head :: head}"></th:block>
 </head>
 
 <body>
-
-
     <main class="container">
-        <section class="upper row">
-            <div class="col-12">
-                <h1 class="card-title mb-4 p-4 text-center fw-bold">
-                    Edit your Offerta
-                </h1>
+        <h1 class="mt-4">Modifica Offerta per: <span th:text="${pizza.name}"></span></h1>
 
-        </section>
+        <form th:action="@{'/offerte/edit/' + ${sconto.id}}" th:object="${sconto}" method="POST">
 
-        <section class="create pizza">
-            <div class="col-12 text-center">
-                <ul>
-                    <li th:each="err : ${#fields.allErrors()}" th:text="${err}">
-                    </li>
-                </ul>
-            </div>
-            <div class="col-12">
-                <h2>Modifica offerta speciale</h2>
-                <form th:action="@{/offerte/edit/{id}(id=${sconto.id})}" th:object="${sconto}" method="post">
-                    <input type="hidden" th:field="*{pizza.id}" />
+            <!-- Campo nascosto per ID Pizza -->
+            <input type="hidden" th:field="*{pizza.id}" />
 
-                    <label>Titolo</label>
-                    <input type="text" th:field="*{titolo}" class="form-control" />
-
-                    <label>Data inizio</label>
-                    <input type="date" th:field="*{inizioOfferta}" class="form-control" />
-
-                    <label>Data fine</label>
-                    <input type="date" th:field="*{fineOfferta}" class="form-control mb-5" />
-
-                    <button type="submit" class="btn btn-primary mt-5">Salva offerta</button>
-                </form>
-
+            <!-- Titolo -->
+            <div class="mb-3">
+                <label for="titolo" class="form-label">Titolo offerta</label>
+                <input id="titolo" type="text" class="form-control" th:field="*{titolo}" required>
+                <div th:if="${#fields.hasErrors('titolo')}" class="text-danger">
+                    <p th:each="err : ${#fields.errors('titolo')}" th:text="${err}"></p>
+                </div>
             </div>
 
-        </section>
+            <!-- Inizio Offerta -->
+            <div class="mb-3">
+                <label for="inizioOfferta" class="form-label">Data Inizio</label>
+                <input id="inizioOfferta" type="date" class="form-control" th:field="*{inizioOfferta}" required>
+                <div th:if="${#fields.hasErrors('inizioOfferta')}" class="text-danger">
+                    <p th:each="err : ${#fields.errors('inizioOfferta')}" th:text="${err}"></p>
+                </div>
+            </div>
 
+            <!-- Fine Offerta -->
+            <div class="mb-3">
+                <label for="fineOfferta" class="form-label">Data Fine</label>
+                <input id="fineOfferta" type="date" class="form-control" th:field="*{fineOfferta}" required>
+                <div th:if="${#fields.hasErrors('fineOfferta')}" class="text-danger">
+                    <p th:each="err : ${#fields.errors('fineOfferta')}" th:text="${err}"></p>
+                </div>
+            </div>
 
-
+            <!-- Pulsanti -->
+            <div class="d-flex justify-content-between mt-4">
+                <a th:href="@{/pizzas/{id}(id=${pizza.id})}" class="btn btn-secondary">Back</a>
+                <button type="submit" class="btn btn-primary">Salva modifiche</button>
+            </div>
+        </form>
     </main>
 
-    <th:block th:replace="~{fragments/footer :: scripts}">
+    <th:block th:replace="~{fragments/footer :: scripts}"></th:block>
 </body>
 
 </html>

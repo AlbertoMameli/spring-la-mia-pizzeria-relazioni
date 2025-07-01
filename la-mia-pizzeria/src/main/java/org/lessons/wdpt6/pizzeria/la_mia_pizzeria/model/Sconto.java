@@ -2,7 +2,10 @@ package org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,10 +17,14 @@ public class Sconto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "Specifica la data dell'inizio dell'offerta speciale.")
+    @NotNull(message = "Specifica la data dell inizio dell offerta speciale.")
+    @FutureOrPresent(message = "La data deve essere odierna o futura")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate inizioOfferta;
 
     @NotNull(message = "Specifica la data di fine offerta speciale.")
+    @FutureOrPresent(message = "La data deve essere odierna o futura")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fineOfferta;
 
     @NotBlank(message = "Il titolo non può essere vuoto, nullo o con soli spazi.")
@@ -68,4 +75,5 @@ public class Sconto {
     public void setPizza(Pizza pizza) {
         this.pizza = pizza;
     }
+
 }

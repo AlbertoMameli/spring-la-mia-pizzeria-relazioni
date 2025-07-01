@@ -1,3 +1,10 @@
 body {
   background-color: rgb(122, 182, 122); 
 }
+
+@media (max-width: 768px) {
+  .table td .btn {
+    margin-bottom: 6px;
+    margin-right: 4px
+  }
+}

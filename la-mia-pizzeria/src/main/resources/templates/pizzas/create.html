@@ -79,9 +79,11 @@
                         </div>
                     </div>
 
-                    <div class="mb-3 d-flex justify-content-between">
-                        <button type="submit" class="btn btn-primary">Create pizza</button>
+                    <div class="col-12 mb-3 d-flex justify-content-between"> 
+                        <a th:href="@{/pizzas}" class="btn btn-secondary">Back</a>
+                        <button type="submit" class="btn btn-success">Create pizza</button>
                         <button type="reset" class="btn btn-warning">Reset</button>
+                       
                     </div>
                 </form>
             </div>

@@ -2,59 +2,79 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pizzas index</title>
-    <th:block th:replace="~{fragments/head :: head}">
-    </th:block>
-    <link rel="stylesheet" href="stile.css">
+    <th:block th:replace="~{fragments/head :: head}"></th:block>
+    <link rel="stylesheet" href="stile.css" />
 </head>
 
 <body>
-
 
     <main class="container">
         <section class="upper row">
             <div class="col-12">
                 <h1 class="card-title mb-4 p-4 text-center fw-bold">
-                    Create your Offerta
+                    Create your Offerta for pizza <span th:if="${pizza != null}" th:text="${pizza.name}"></span>
+                    <span th:unless="${pizza != null}">Pizza non trovata</span>
                 </h1>
 
+            </div>
         </section>
 
         <section class="create pizza">
-            <div class="col-12 text-center">
-                <ul>
-                    <li th:each="err : ${#fields.allErrors()}" th:text="${err}">
-                    </li>
-                </ul>
-            </div>
             <div class="col-12">
                 <h2>Nuova offerta speciale</h2>
-                <form th:action="@{/offerte/save}" th:object="${sconto}" method="post">
+                <form th:action="@{/offerte/save}" th:object="${sconto}" method="POST">
+
+                    <!-- Errori globali -->
+                    <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+                        <ul>
+                            <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <!-- Errori di qualsiasi campo -->
+                    <div th:if="${#fields.hasErrors()}" class="alert alert-danger">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <!-- Campo nascosto pizza.id -->
                     <input type="hidden" th:field="*{pizza.id}" />
 
-                    <label>Titolo</label>
-                    <input type="text" th:field="*{titolo}" class="form-control" />
+                    <label for="titolo">Titolo</label>
+                    <input id="titolo" type="text" th:field="*{titolo}" class="form-control" />
+                    <div th:if="${#fields.hasErrors('titolo')}" class="text-danger mb-3">
+                        <p th:each="err : ${#fields.errors('titolo')}" th:text="${err}"></p>
+                    </div>
 
-                    <label>Data inizio</label>
-                    <input type="date" th:field="*{inizioOfferta}" class="form-control" />
+                    <label for="inizioOfferta">Data inizio</label>
+                    <input id="inizioOfferta" type="date" th:field="*{inizioOfferta}" class="form-control" />
+                    <div th:if="${#fields.hasErrors('inizioOfferta')}" class="text-danger mb-3">
+                        <p th:each="err : ${#fields.errors('inizioOfferta')}" th:text="${err}"></p>
+                    </div>
 
-                    <label>Data fine</label>
-                    <input type="date" th:field="*{fineOfferta}" class="form-control" />
+                    <label for="fineOfferta">Data fine</label>
+                    <input id="fineOfferta" type="date" th:field="*{fineOfferta}" class="form-control" />
+                    <div th:if="${#fields.hasErrors('fineOfferta')}" class="text-danger mb-3">
+                        <p th:each="err : ${#fields.errors('fineOfferta')}" th:text="${err}"></p>
+                    </div>
 
-                    <button type="submit" class="btn btn-primary">Salva offerta</button>
+                    <div class="col-12 mt-5 mb-3 d-flex justify-content-between gap-3">
+                        <a th:href="@{/pizzas}" class="btn btn-secondary px-4">Back</a>
+                        <button type="submit" class="btn btn-primary px-4">Salva offerta</button>
+                        <button type="reset" class="btn btn-warning px-4">Reset</button>
+                    </div>
+
                 </form>
-
             </div>
-
         </section>
-
-
-
     </main>
 
-    <th:block th:replace="~{fragments/footer :: scripts}">
+    <th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+
 </body>
 
 </html>
