@@ -18,21 +18,22 @@
                 <p class="card-text" th:text="${pizza.description}">Descrizione</p>
                 <h5 th:text="'Prezzo: € ' + ${pizza.price}">Prezzo</h5>
 
-                <div class="mt-3">
+                <div class="mt-3 d-flex justify-content-around">
                     <a th:href="@{/pizzas}" class="btn btn-secondary">Torna alla lista</a>
                     <a th:href="@{'/pizzas/edit/' + ${pizza.id}}" class="btn btn-warning">Modifica Pizza</a>
-                    <a th:href="@{'/pizzas/' + ${pizza.id} + '/sconto'}" class="btn btn-success">Aggiungi Sconto</a>
+                    <a th:href="@{'/pizzas/' + ${pizza.id} + '/offerta'}" class="btn btn-success">Aggiungi Sconto</a>
+
                 </div>
             </div>
         </div>
 
-        <!-- Card con gli sconti -->
+        <!-- Card con gli offerte -->
         <div class="card">
             <div class="card-header">
                 <h3>Sconti Speciali</h3>
             </div>
             <div class="card-body">
-                <div th:if="${pizza.sconti != null and !pizza.sconti.isEmpty()}">
+                <div th:if="${pizza.offerte != null and !pizza.offerte.isEmpty()}">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -43,52 +44,62 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="sconto : ${pizza.sconti}">
-                                <td th:text="${sconto.titolo}">Titolo</td>
-                                <td th:text="${sconto.inizioSconto}">Inizio</td>
-                                <td th:text="${sconto.fineSconto}">Fine</td>
+                            <tr th:each="offerta : ${pizza.offerte}">
+                                <td th:text="${offerta.titolo}">Titolo</td>
+                                <td th:text="${offerta.inizioOfferta}">Inizio</td>
+                                <td th:text="${offerta.fineOfferta}">Fine</td>
                                 <td>
-                                    <a th:href="@{'/sconti/edit/' + ${sconto.id}}" class="btn btn-sm btn-primary">
+                                    <a th:href="@{'/offerte/edit/' + ${offerta.id}}" class="btn btn-sm btn-primary">
                                         Modifica
                                     </a>
-                                    <!-- Bottone Modale Elimina -->
+
                                     <button type="button" class="btn btn-sm btn-danger"
-                                        th:attr="data-bs-toggle='modal', data-bs-target='#deleteModal__' + ${sconto.id}">
+                                        th:attr="data-bs-toggle='modal', data-bs-target='#deleteModal__' + ${offerta.id}">
                                         Elimina
                                     </button>
-
                                     <!-- Modal conferma eliminazione -->
-                                    <div class="modal fade" th:id="'deleteModal__' + ${sconto.id}" tabindex="-1"
+                                    <div class="modal fade" th:id="'delete-modal-' + ${offerta.id}"
+                                        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                                         aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
+                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="deleteModalLabel">Conferma Eliminazione</h5>
+                                                    <h5 class="modal-title" id="deleteModalLabel">
+                                                        Eliminazione dello offerta <strong>"<span
+                                                                th:text="${offerta.titolo}">Titolo
+                                                                offerta</span>"</strong>
+                                                    </h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Sei sicuro di voler eliminare lo sconto
-                                                    <strong th:text="${sconto.titolo}">Titolo Sconto</strong>?
+                                                    Sei sicuro di voler eliminare lo offerta <strong>"<span
+                                                            th:text="${offerta.titolo}">Titolo Sconto</span>"</strong>
+                                                    (ID: <span th:text="${offerta.id}">ID</span>)?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Annulla</button>
-                                                    <form th:action="@{'/sconti/delete/' + ${sconto.id}}" method="post" th:object="${sconto}">
-                                                        <button type="submit" class="btn btn-danger">Elimina</button>
+                                                        data-bs-dismiss="modal">Chiudi</button>
+                                                    <form th:action="@{'/offerte/delete/' + ${offerta.id}}"
+                                                        method="POST" class="d-inline">
+                                                        <button type="button" class="btn btn-sm btn-danger"
+                                                            th:attr="data-bs-toggle='modal', data-bs-target='#delete-modal-' + ${offerta.id}">
+                                                            Elimina
+                                                        </button>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /Modal -->
+
+
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div th:if="${pizza.sconti == null or pizza.sconti.isEmpty()}">
-                    <p>Nessuno sconto disponibile per questa pizza.</p>
+                <div th:if="${pizza.offerte == null or pizza.offerte.isEmpty()}">
+                    <p>Nessuno offerta disponibile per questa pizza.</p>
                 </div>
             </div>
         </div>

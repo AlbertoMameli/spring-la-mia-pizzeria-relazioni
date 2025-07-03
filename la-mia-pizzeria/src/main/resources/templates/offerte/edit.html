@@ -11,7 +11,7 @@
     <main class="container">
         <h1 class="mt-4">Modifica Offerta per: <span th:text="${pizza.name}"></span></h1>
 
-        <form th:action="@{'/offerte/edit/' + ${sconto.id}}" th:object="${sconto}" method="POST">
+        <form th:action="@{'/offerte/edit/' + ${offerta.id}}" th:object="${offerta}" method="POST">
 
             <!-- Campo nascosto per ID Pizza -->
             <input type="hidden" th:field="*{pizza.id}" />

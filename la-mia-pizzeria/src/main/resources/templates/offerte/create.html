@@ -1,31 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pizzas index</title>
-    <th:block th:replace="~{fragments/head :: head}"></th:block>
+    <title>Crea Offerta</title>
+    <th:block th:replace="~{fragments/head :: head}" />
     <link rel="stylesheet" href="stile.css" />
 </head>
 
 <body>
 
-    <main class="container">
-        <section class="upper row">
-            <div class="col-12">
-                <h1 class="card-title mb-4 p-4 text-center fw-bold">
-                    Create your Offerta for pizza <span th:if="${pizza != null}" th:text="${pizza.name}"></span>
-                    <span th:unless="${pizza != null}">Pizza non trovata</span>
-                </h1>
+    <main class="container mt-5">
 
+        <!-- Titolo -->
+        <section class="row justify-content-center">
+            <div class="col-12 text-center">
+                <h1 class="fw-bold mb-4">
+                    Crea un'offerta per <span th:text="${pizza.name}">Pizza</span>
+                </h1>
             </div>
         </section>
 
-        <section class="create pizza">
-            <div class="col-12">
-                <h2>Nuova offerta speciale</h2>
-                <form th:action="@{/offerte/save}" th:object="${sconto}" method="POST">
+        <!-- Form -->
+        <section class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <form th:action="@{/offerte/create}" th:object="${offerta}" method="POST" class="needs-validation"
+                    novalidate>
 
                     <!-- Errori globali -->
                     <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
@@ -34,38 +35,52 @@
                         </ul>
                     </div>
 
-                    <!-- Errori di qualsiasi campo -->
-                    <div th:if="${#fields.hasErrors()}" class="alert alert-danger">
-                        <ul>
-                            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
-                        </ul>
-                    </div>
-
-                    <!-- Campo nascosto pizza.id -->
+                    <!-- Campo nascosto per pizza.id -->
                     <input type="hidden" th:field="*{pizza.id}" />
 
-                    <label for="titolo">Titolo</label>
-                    <input id="titolo" type="text" th:field="*{titolo}" class="form-control" />
-                    <div th:if="${#fields.hasErrors('titolo')}" class="text-danger mb-3">
-                        <p th:each="err : ${#fields.errors('titolo')}" th:text="${err}"></p>
+                    <!-- Titolo -->
+                    <div class="mb-3">
+                        <label for="titolo" class="form-label">Titolo</label>
+                        <input id="titolo" type="text" th:field="*{titolo}" class="form-control"
+                            th:errorClass="is-invalid" required />
+                        <div th:if="${#fields.hasErrors('titolo')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('titolo')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <label for="inizioOfferta">Data inizio</label>
-                    <input id="inizioOfferta" type="date" th:field="*{inizioOfferta}" class="form-control" />
-                    <div th:if="${#fields.hasErrors('inizioOfferta')}" class="text-danger mb-3">
-                        <p th:each="err : ${#fields.errors('inizioOfferta')}" th:text="${err}"></p>
+                    <!-- Inizio Offerta -->
+                    <div class="mb-3">
+                        <label for="inizioOfferta" class="form-label">Data Inizio</label>
+                        <input id="inizioOfferta" type="date" th:field="*{inizioOfferta}" class="form-control"
+                            th:errorClass="is-invalid" required />
+                        <div th:if="${#fields.hasErrors('inizioOfferta')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('inizioOfferta')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <label for="fineOfferta">Data fine</label>
-                    <input id="fineOfferta" type="date" th:field="*{fineOfferta}" class="form-control" />
-                    <div th:if="${#fields.hasErrors('fineOfferta')}" class="text-danger mb-3">
-                        <p th:each="err : ${#fields.errors('fineOfferta')}" th:text="${err}"></p>
+                    <!-- Fine Offerta -->
+                    <div class="mb-4">
+                        <label for="fineOfferta" class="form-label">Data Fine</label>
+                        <input id="fineOfferta" type="date" th:field="*{fineOfferta}" class="form-control"
+                            th:errorClass="is-invalid" required />
+                        <div th:if="${#fields.hasErrors('fineOfferta')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('fineOfferta')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="col-12 mt-5 mb-3 d-flex justify-content-between gap-3">
+                    <!-- Pulsanti -->
+                    <div class="d-flex justify-content-between gap-3">
                         <a th:href="@{/pizzas}" class="btn btn-secondary px-4">Back</a>
-                        <button type="submit" class="btn btn-primary px-4">Salva offerta</button>
-                        <button type="reset" class="btn btn-warning px-4">Reset</button>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary px-4">Salva</button>
+                            <button type="reset" class="btn btn-warning px-4">Reset</button>
+                        </div>
                     </div>
 
                 </form>
@@ -73,7 +88,7 @@
         </section>
     </main>
 
-    <th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+    <th:block th:replace="~{fragments/footer :: scripts}" />
 
 </body>
 

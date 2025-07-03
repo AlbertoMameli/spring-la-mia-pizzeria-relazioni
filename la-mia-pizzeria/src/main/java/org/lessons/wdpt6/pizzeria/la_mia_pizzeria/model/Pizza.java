@@ -35,7 +35,7 @@ public class Pizza implements Serializable {
     //cascade = CascadeType.ALL  elimina o salva una pizza, salva/elimina anche gli sconti collegati.
     //orphanRemoval = true rimuove dallo sconti quelli non più collegati alla Pizza
     @OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL, orphanRemoval = true)
-private List<Sconto> sconti;
+private List<Offerta> sconti;
 
     public Pizza() {
     }
@@ -82,11 +82,11 @@ private List<Sconto> sconti;
         this.price = price;
     }
 
-    public List<Sconto> getSconti() {
+    public List<Offerta> getSconti() {
         return sconti;
     }
 
-    public void setSconti(List<Sconto> sconti) {
+    public void setSconti(List<Offerta> sconti) {
         this.sconti = sconti;
     }
 }

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Pizza;
-import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Sconto;
+import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Offerta;
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +38,10 @@ public class PizzaController {
         Pizza pizza = pizzaRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pizza non trovata"));
         model.addAttribute("pizza", pizza);
+
+        if (pizza.getSconti()!=null){
+            model.addAttribute("sconto", pizza.getSconti());
+        }
         return "pizzas/show";
     }
 
@@ -92,11 +96,11 @@ public class PizzaController {
 
         model.addAttribute("pizza", pizza);
 
-        Sconto sconto = new Sconto();
-        sconto.setInizioOfferta(LocalDate.now());
-        sconto.setPizza(pizza);
+        Offerta offerta = new Offerta();
+      offerta.setInizioOfferta(LocalDate.now());
+      offerta.setPizza(pizza);
 
-        model.addAttribute("sconto", sconto);
+        model.addAttribute("offerta", offerta);
 
         return "offerte/create"; // template per creare l'offerta
     }
