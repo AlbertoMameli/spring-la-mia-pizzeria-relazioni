@@ -9,7 +9,8 @@
 </head>
 
 <body>
-
+ <!-- NavBar -->
+    <section th:insert="fragments/navbar :: navbar"></section>
     <main class="container my-5 text-center">
         <div class="card mb-5">
             <div class="card-body">
@@ -28,7 +29,7 @@
         </div>
 
         <!-- Card offerte -->
-        <div class="row-justify-content-space-around">
+        <div class="row justify-content-center">
             <div class="card col-8">
                 <div class="card-header">
                     <h3>Sconti Speciali</h3>
@@ -58,45 +59,49 @@
                                             th:data-bs-target="'#delete-modal-' + ${offerta.id}">
                                             Elimina
                                         </button>
+
+
+                                        <!-- Modale di conferma -->
+                                        <div class="modal fade" th:id="'delete-modal-' + ${offerta.id}"
+                                            data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                            aria-labelledby="modalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="modalLabel">
+                                                            Eliminazione offerta <strong
+                                                                th:text="${offerta.titolo}"></strong>
+                                                        </h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Chiudi"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            Sei sicuro di voler eliminare l'offerta
+                                                            <strong th:text="${offerta.titolo}"></strong> (ID:
+                                                            <span th:text="${offerta.id}"></span>) relativa alla pizza
+                                                            <strong th:text="${offerta.pizza.name}"></strong>?
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Annulla</button>
+                                                        <form th:action="@{'/offerte/delete/' + ${offerta.id}}"
+                                                            method="POST" class="d-inline">
+                                                            <button type="submit"
+                                                                class="btn btn-danger">Conferma</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <!-- Modale di conferma -->
-                    <div class="modal fade" th:id="'delete-modal-' + ${offerta.id}" data-bs-backdrop="static"
-                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="modalLabel">
-                                        Eliminazione offerta <strong th:text="${offerta.titolo}"></strong>
-                                    </h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Chiudi"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>
-                                        Sei sicuro di voler eliminare l'offerta
-                                        <strong th:text="${offerta.titolo}"></strong> (ID:
-                                        <span th:text="${offerta.id}"></span>) relativa alla pizza
-                                        <strong th:text="${offerta.pizza.name}"></strong>?
-                                    </p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Annulla</button>
-                                    <form th:action="@{'/offerte/delete/' + ${offerta.id}}" method="POST"
-                                        class="d-inline">
-                                        <button type="submit" class="btn btn-danger">Conferma</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    </td>
-                    </tr>
-                    </tbody>
-                    </table>
                 </div>
                 <div th:if="${pizza.offerte == null or pizza.offerte.isEmpty()}">
                     <p>Nessuno offerta disponibile per questa pizza.</p>
