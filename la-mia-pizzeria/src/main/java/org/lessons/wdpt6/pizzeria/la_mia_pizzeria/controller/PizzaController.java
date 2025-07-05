@@ -1,10 +1,12 @@
 package org.lessons.wdpt6.pizzeria.la_mia_pizzeria.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Pizza;
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Offerta;
+import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.repository.OffertaRepository;
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
@@ -26,22 +29,24 @@ public class PizzaController {
 
     @Autowired
     private PizzaRepository pizzaRepository;
+    @Autowired
+    private OffertaRepository offertaRepository;
 
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("pizzas", pizzaRepository.findAll());
+    public String index(Model model, @RequestParam(name = "Keyword", required = false) String keyword) {
+        List<Pizza> pizzas;
+        if (keyword != null && !keyword.isEmpty()) {
+            pizzas = pizzaRepository.findByNameContainingIgnoreCase(keyword);
+        } else {
+            pizzas = pizzaRepository.findAll();
+        }
+        model.addAttribute("pizzas", pizzas);
         return "pizzas/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable(name = "id") Integer id, Model model) {
-        Pizza pizza = pizzaRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pizza non trovata"));
-        model.addAttribute("pizza", pizza);
-
-        if (pizza.getSconti()!=null){
-            model.addAttribute("sconto", pizza.getSconti());
-        }
+        model.addAttribute("pizza", pizzaRepository.findById(id).get());
         return "pizzas/show";
     }
 
@@ -62,9 +67,7 @@ public class PizzaController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model) {
-        Pizza pizza = pizzaRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pizza non trovata"));
-        model.addAttribute("pizza", pizza);
+        model.addAttribute("pizza", pizzaRepository.findById(id).get());
         return "pizzas/edit";
     }
 
@@ -78,9 +81,16 @@ public class PizzaController {
         return "redirect:/pizzas";
     }
 
+    // qui dico che se devo cancellare il libro, per ogni offerta presente nella ,
+    // cancellami anche l'offerta collegata alla pizza
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer id, Model model) {
-        pizzaRepository.deleteById(id);
+        Pizza pizzaToDelete = pizzaRepository.findById(id).get();
+        for (Offerta offerta : pizzaToDelete.getOfferte()) {
+            offertaRepository.delete(offerta);
+        }
+        pizzaRepository.delete(pizzaToDelete);
+
         return "redirect:/pizzas";
     }
 
@@ -91,17 +101,19 @@ public class PizzaController {
         if (pizzaOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Non ci sono pizze con l'id " + id);
         }
-
-        Pizza pizza = pizzaOptional.get();
-
-        model.addAttribute("pizza", pizza);
-
+        model.addAttribute("pizza", pizzaOptional.get());
         Offerta offerta = new Offerta();
-      offerta.setInizioOfferta(LocalDate.now());
-      offerta.setPizza(pizza);
-
+        offerta.setPizza(pizzaOptional.get());
+        offerta.setInizioOfferta(LocalDate.now());
         model.addAttribute("offerta", offerta);
 
         return "offerte/create"; // template per creare l'offerta
+    }
+
+
+     @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id) {
+        offertaRepository.deleteById(id);
+        return "redirect:/pizzas";
     }
 }

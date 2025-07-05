@@ -69,8 +69,7 @@
 
                     <div class="mb-3">
                         <label for="descrizione" class="form-label">Descrizione:</label>
-                        <textarea id="descrizione" class="form-control mb-3" th:field="*{description}"
-                            rows="4">
+                        <textarea id="descrizione" class="form-control mb-3" th:field="*{description}" rows="4">
                         </textarea>
                         <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
                             <ul>
@@ -79,11 +78,11 @@
                         </div>
                     </div>
 
-                    <div class="col-12 mb-3 d-flex justify-content-between"> 
+                    <div class="col-12 mb-3 d-flex justify-content-between">
                         <a th:href="@{/pizzas}" class="btn btn-secondary">Back</a>
                         <button type="submit" class="btn btn-success">Create pizza</button>
                         <button type="reset" class="btn btn-warning">Reset</button>
-                       
+
                     </div>
                 </form>
             </div>

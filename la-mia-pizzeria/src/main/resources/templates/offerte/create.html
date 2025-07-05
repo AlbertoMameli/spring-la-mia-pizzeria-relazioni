@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Crea Offerta</title>
     <th:block th:replace="~{fragments/head :: head}" />
-    <link rel="stylesheet" href="stile.css" />
+    
 </head>
 
 <body>
@@ -25,7 +25,7 @@
         <!-- Form -->
         <section class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
-                <form th:action="@{/offerte/create}" th:object="${offerta}" method="POST" class="needs-validation"
+                <form th:action="@{/offerte}" th:object="${offerta}" method="POST" class="needs-validation"
                     novalidate>
 
                     <!-- Errori globali -->
