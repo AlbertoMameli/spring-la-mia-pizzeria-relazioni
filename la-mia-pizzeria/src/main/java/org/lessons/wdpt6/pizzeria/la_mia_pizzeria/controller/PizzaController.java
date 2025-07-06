@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Pizza;
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Offerta;
+import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.repository.IngredienteRepository;
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.repository.OffertaRepository;
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class PizzaController {
     private PizzaRepository pizzaRepository;
     @Autowired
     private OffertaRepository offertaRepository;
+    @Autowired
+    private IngredienteRepository ingredienteRepository;
 
     @GetMapping
     public String index(Model model, @RequestParam(name = "Keyword", required = false) String keyword) {
@@ -53,6 +56,7 @@ public class PizzaController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("ingredienti", ingredienteRepository.findAll());
         return "pizzas/create";
     }
 
@@ -68,6 +72,8 @@ public class PizzaController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("pizza", pizzaRepository.findById(id).get());
+        model.addAttribute("ingredienti", ingredienteRepository.findAll());
+
         return "pizzas/edit";
     }
 
@@ -109,7 +115,5 @@ public class PizzaController {
 
         return "offerte/create"; // template per creare l'offerta
     }
-
-
 
 }

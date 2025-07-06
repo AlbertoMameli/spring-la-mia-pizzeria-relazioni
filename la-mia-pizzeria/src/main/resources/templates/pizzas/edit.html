@@ -12,9 +12,9 @@
 
 <body>
 
- <!-- NavBar -->
+    <!-- NavBar -->
     <section th:insert="fragments/navbar :: navbar"></section>
-    
+
     <main class="container">
         <section class="upper row">
             <div class="col-12">
@@ -32,7 +32,8 @@
                 </ul>
             </div>
             <div class="col-12">
-                <form th:action="@{/pizzas/edit/{id}(id=${pizza.id})}" method="POST" th:object="${pizza}" id="pizza-creation-form">
+                <form th:action="@{/pizzas/edit/{id}(id=${pizza.id})}" method="POST" th:object="${pizza}"
+                    id="pizza-creation-form">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name:</label>
                         <input id="name" type="text" class="form-control mb-3" th:field="*{name}"
@@ -43,6 +44,13 @@
                                 <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
                             </ul>
                         </div>
+                    </div>
+
+                    <div class="ingredienti" th:each="ingrediente : ${ingredienti}">
+                        <input type="checkbox" class="form-check-input" id="'ingrediente-' + ${ingrediente.id}"
+                            th:field="${pizza.ingredienti}" th:value="${ingrediente.id}">
+                        <label for="ingredienti" class="form-check-label">[[${ingrediente.nome}]]</label>
+
                     </div>
 
 

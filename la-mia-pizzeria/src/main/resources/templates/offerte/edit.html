@@ -11,7 +11,7 @@
 </head>
 
 <body>
-     <!-- NavBar -->
+    <!-- NavBar -->
     <section th:insert="fragments/navbar :: navbar"></section>
 
 
@@ -37,7 +37,7 @@
                     <div class="mb-3">
                         <label for="titolo" class="form-label">Name:</label>
                         <input id="titolo" type="text" class="form-control mb-3" th:field="*{titolo}"
-                            th:errorClass="is-invalid" required>
+                            th:errorClass="is-invalid">
 
                         <div th:if="${#fields.hasErrors('titolo')}" class="invalid-feedback">
                             <ul>
@@ -53,7 +53,7 @@
                             th:errorClass="is-invalid" required>
                         <div th:if="${#fields.hasErrors('inizioOfferta')}" class="invalid-feedback">
                             <ul>
-                                <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
+                                <li th:each="err : ${#fields.errors('inizioOfferta')}" th:text="${err}"></li>
                             </ul>
                         </div>
                     </div>

@@ -11,7 +11,7 @@
 </head>
 
 <body>
- <!-- NavBar -->
+    <!-- NavBar -->
     <section th:insert="fragments/navbar :: navbar"></section>
 
     <main class="container">
@@ -35,13 +35,20 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Name:</label>
                         <input id="name" type="text" class="form-control mb-3" th:field="*{name}"
-                            th:errorClass="is-invalid" required>
+                            th:errorClass="is-invalid">
 
                         <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
                             <ul>
                                 <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
                             </ul>
                         </div>
+                    </div>
+
+
+                    <div class="ingredienti" th:each="ingrediente : ${ingredienti}">
+                        <input type="checkbox" class="form-check-input" id="'ingrediente-' + ${ingrediente.id}" th:field="${pizza.ingredienti}" th:value="${ingrediente.id}">
+                        <label for="ingredienti" class="form-check-label">[[${ingrediente.nome}]]</label>
+                        
                     </div>
 
 

@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Crea Offerta</title>
     <th:block th:replace="~{fragments/head :: head}" />
-    
+
 </head>
 
 <body>
- <!-- NavBar -->
+    <!-- NavBar -->
     <section th:insert="fragments/navbar :: navbar"></section>
     <main class="container mt-5">
 
@@ -26,8 +26,7 @@
         <!-- Form -->
         <section class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
-                <form th:action="@{/offerte}" th:object="${offerta}" method="POST" class="needs-validation"
-                    novalidate>
+                <form th:action="@{/offerte}" th:object="${offerta}" method="POST" class="needs-validation" novalidate>
 
                     <!-- Errori globali -->
                     <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
@@ -43,7 +42,7 @@
                     <div class="mb-3">
                         <label for="titolo" class="form-label">Titolo</label>
                         <input id="titolo" type="text" th:field="*{titolo}" class="form-control"
-                            th:errorClass="is-invalid" required />
+                            th:errorClass="is-invalid"  />
                         <div th:if="${#fields.hasErrors('titolo')}" class="invalid-feedback">
                             <ul>
                                 <li th:each="err : ${#fields.errors('titolo')}" th:text="${err}"></li>

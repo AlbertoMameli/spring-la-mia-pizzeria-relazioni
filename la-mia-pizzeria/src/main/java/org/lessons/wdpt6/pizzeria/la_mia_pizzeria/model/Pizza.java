@@ -2,6 +2,7 @@ package org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -38,7 +39,25 @@ public class Pizza implements Serializable {
     public Pizza() {
     }
 
+
+    @ManyToMany()
+    @JoinTable(
+        name = "ingrediente_pizza",
+        joinColumns = @JoinColumn(name = "pizza_id"),
+        inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
+        private Set<Ingrediente> ingredienti;
+
     // Getters e Setters
+
+
+
+    public Set<Ingrediente> getIngredienti() {
+        return ingredienti;
+    }
+
+    public void setIngredienti(Set<Ingrediente> ingredienti) {
+        this.ingredienti = ingredienti;
+    }
 
     public Integer getId() {
         return id;

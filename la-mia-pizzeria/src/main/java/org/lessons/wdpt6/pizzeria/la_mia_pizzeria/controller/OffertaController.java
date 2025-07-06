@@ -36,6 +36,7 @@ public class OffertaController {
         // In caso di errori allora mostrami questo
         if (bindingResult.hasErrors()) {
             model.addAttribute("offerta", offertaForm);
+            model.addAttribute("pizza", offertaForm.getPizza());
             return "offerte/create";
         }
         // se non ci sono errori allora utilizza il metodo save per creare la mia
@@ -62,6 +63,7 @@ public class OffertaController {
             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("offerta", offertaForm);
+            
             return "offerte/edit";
         }
         offertaRepository.save(offertaForm);
