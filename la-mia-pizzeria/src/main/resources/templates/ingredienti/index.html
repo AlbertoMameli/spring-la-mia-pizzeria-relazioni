@@ -27,7 +27,7 @@
         </section>
 
         <!-- Tabella + Form per delete multipla -->
-        <form id="bulk-delete-form" th:action="@{/ingredienti/delete-multiple}" method="post">
+        <form id="delete-multiplo" th:action="@{/ingredienti/delete-multiple}" method="POST">
             <section class="row">
                 <div class="col-12">
                     <div class="table-responsive">
@@ -135,12 +135,8 @@
     </main>
 
     <!-- Script per checkbox seleziona tutti -->
-    <script>
-        document.getElementById('select-all').addEventListener('change', function () {
-            document.querySelectorAll('input[name="ids"]').forEach(cb => cb.checked = this.checked);
-        });
-    </script>
 
+    <script src="/js/delete-multiplo.js"></script>
     <!-- Bootstrap JS -->
     <th:block th:replace="~{fragments/footer :: scripts}"></th:block>
 
