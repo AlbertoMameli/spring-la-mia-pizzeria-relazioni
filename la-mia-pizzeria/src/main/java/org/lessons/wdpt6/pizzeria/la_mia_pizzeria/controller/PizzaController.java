@@ -63,6 +63,7 @@ public class PizzaController {
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredienti", ingredienteRepository.findAll());
             return "pizzas/create";
         }
         pizzaRepository.save(formPizza);
@@ -80,6 +81,7 @@ public class PizzaController {
     @PostMapping("/edit/{id}")
     public String update(@PathVariable("id") Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza,
             BindingResult bindingResult, Model model) {
+        model.addAttribute("ingredienti", ingredienteRepository.findAll());
         if (bindingResult.hasErrors()) {
             return "pizzas/edit";
         }

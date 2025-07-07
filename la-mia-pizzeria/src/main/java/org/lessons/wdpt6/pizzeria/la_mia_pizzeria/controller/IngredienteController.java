@@ -3,6 +3,7 @@ package org.lessons.wdpt6.pizzeria.la_mia_pizzeria.controller;
 import java.util.List;
 
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Ingrediente;
+import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Pizza;
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.repository.IngredienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,6 +73,13 @@ public class IngredienteController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
+        Ingrediente igredienteDacancellare = ingredienteRepository.findById(id).get();
+
+        for (Pizza pizza : igredienteDacancellare.getPizzas()) {
+            pizza.getIngredienti().remove(igredienteDacancellare);
+
+        }
+
         ingredienteRepository.deleteById(id);
         return "redirect:/ingredienti";
     }
