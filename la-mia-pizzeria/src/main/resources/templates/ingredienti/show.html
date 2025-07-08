@@ -8,7 +8,7 @@
 </head>
 <body>
     <!-- NavBar -->
-    <section th:insert="fragments/navbar :: navbar"></section>
+    <section th:insert="~{fragments/navbar :: navbar}"></section>
 
     <main class="container my-5 text-center" th:object="${ingrediente}">
         <div class="card mb-5">
