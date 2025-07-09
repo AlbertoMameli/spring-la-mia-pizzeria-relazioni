@@ -15,7 +15,8 @@
     <main class="container mt-5">
         <!-- Titolo -->
         <section class="row mb-4">
-            <div class="col-12 text-center">
+            <div class="col-12 text-center"> 
+
                 <h1 class="fw-bold">Lista Offerte</h1>
             </div>
         </section>
@@ -23,8 +24,8 @@
         <!-- Tabella Offerte -->
         <section class="row justify-content-center">
             <div class="col-lg-10">
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark text-center">
+                <table class="table table-hover table-striped align-middle text-center">
+                    <thead class="">
                         <tr>
                             <th>ID</th>
                             <th>Pizza</th>
@@ -36,16 +37,17 @@
                     </thead>
                     <tbody>
                         <tr th:each="offerta : ${offerte}">
-                            <td th:text="${offerta.id}">1</td>
-                            <td th:text="${offerta.pizza.name}">Margherita</td>
-                            <td th:text="${offerta.titolo}">Promo</td>
-                            <td th:text="${offerta.inizioOfferta}">2025-07-01</td>
-                            <td th:text="${offerta.fineOfferta}">2025-07-10</td>
+                            <td th:text="${offerta.id}"></td>
+                            <td th:text="${offerta.pizza.name}"></td>
+                            <td th:text="${offerta.titolo}"></td>
+                            <td th:text="${offerta.inizioOfferta}"></td>
+                            <td th:text="${offerta.fineOfferta}"></td>
                             <td class="text-center">
                                 <div class="d-flex gap-2 justify-content-center">
                                     <a th:href="@{'/offerte/edit/' + ${offerta.id}}" class="btn btn-sm btn-primary">
                                         Modifica
                                     </a>
+
 
                                     <!-- Bottone che apre la modale -->
                                     <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
@@ -87,6 +89,7 @@
                                     </div>
                                 </div>
 
+
                             </td>
                         </tr>
                         <tr th:if="${offerte.size() == 0}">
@@ -94,6 +97,11 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="col-8 mb-5 d-flex justify-content-around">
+                <a th:href="@{/pizzas}" class="btn btn-secondary">Torna alle pizze</a>
+                <a th:href="@{/offerte/create}" class="btn btn-success">Aggiungi Sconto</a>
+
             </div>
         </section>
     </main>

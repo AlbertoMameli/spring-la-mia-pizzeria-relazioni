@@ -32,6 +32,7 @@ public class Offerta {
 
     // Relazione molti a uno con Pizza
     @ManyToOne
+    @NotNull(message = "Seleziona una pizza")
     @JoinColumn(name = "pizzas_id", nullable = false)
     private Pizza pizza;
 

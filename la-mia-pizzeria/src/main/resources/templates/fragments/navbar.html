@@ -13,11 +13,13 @@
                     <a class="nav-link" th:href="@{/pizzas}">Pizzas</a>
                     <a class="nav-link" th:href="@{/offerte}">Offerte</a>
                     <a class="nav-link" th:href="@{/ingredienti}">Ingredienti</a>
-
-
-
-
                 </div>
+            </div>
+
+            <div class="user-details">
+                Logged user: <span sec:authentication="name" class="me-3"></span>
+                Roles: <span sec:authentication="principal.authorities" class="me-3"></span>
+                <a th:href="@{/logout}" class="btn btn-primary">Logout</a>
             </div>
         </div>
     </nav>

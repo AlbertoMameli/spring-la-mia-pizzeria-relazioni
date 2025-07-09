@@ -2,6 +2,7 @@ package org.lessons.wdpt6.pizzeria.la_mia_pizzeria.controller;
 
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model.Offerta;
 import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.repository.OffertaRepository;
+import org.lessons.wdpt6.pizzeria.la_mia_pizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,16 @@ public class OffertaController {
 
     @Autowired
     private OffertaRepository offertaRepository;
+    @Autowired
+private PizzaRepository pizzaRepository; // aggiungi  repository delle pizze
+
+@GetMapping("/create")
+public String create(Model model) {
+    model.addAttribute("offerta", new Offerta());
+    model.addAttribute("pizze", pizzaRepository.findAll()); // per il <select> nel form
+    return "offerte/create";
+}
+
 
     @GetMapping
     public String index(Model model) {
@@ -37,6 +48,7 @@ public class OffertaController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("offerta", offertaForm);
             model.addAttribute("pizza", offertaForm.getPizza());
+            model.addAttribute("pizze", pizzaRepository.findAll());
             return "offerte/create";
         }
         // se non ci sono errori allora utilizza il metodo save per creare la mia
