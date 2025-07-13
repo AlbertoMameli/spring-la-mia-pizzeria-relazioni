@@ -77,8 +77,14 @@ public class PizzaRestController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        pizzaRepository.deleteById(id);
+    public ResponseEntity<Pizza> delete(@PathVariable Integer id) {
+        Optional<Pizza> pizzaAttempt = pizzaRepository.findById(id);
+        if (pizzaAttempt.isPresent()) {
+            pizzaRepository.delete(pizzaAttempt.get());
+            return new ResponseEntity<Pizza>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<Pizza>(HttpStatus.NOT_FOUND);
+
     }
 
 }
