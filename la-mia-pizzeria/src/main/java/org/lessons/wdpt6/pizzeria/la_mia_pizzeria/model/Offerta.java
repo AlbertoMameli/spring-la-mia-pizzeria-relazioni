@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -34,6 +36,7 @@ public class Offerta {
     @ManyToOne
     @NotNull(message = "Seleziona una pizza")
     @JoinColumn(name = "pizzas_id", nullable = false)
+    @JsonBackReference
     private Pizza pizza;
 
     // Getters e Setters

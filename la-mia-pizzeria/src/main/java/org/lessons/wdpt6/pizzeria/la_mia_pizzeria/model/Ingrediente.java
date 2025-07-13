@@ -2,7 +2,7 @@ package org.lessons.wdpt6.pizzeria.la_mia_pizzeria.model;
 
 import java.util.Set;
 
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,7 +28,9 @@ public class Ingrediente {
     private String descrizione;
 
     @ManyToMany( mappedBy = "ingredienti")
+    @JsonBackReference
     private Set<Pizza> pizzas;
+
 
 
 

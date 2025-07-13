@@ -36,11 +36,12 @@
                     </div>
 
                     <!-- Selezione pizza -->
-                    <div th:if="${pizza == null}" class="mb-3">
+                    <div th:if="${pizza == null}" class="mb-3"> <!--Mostro il blocco solo se non è presente una pizza -->
                         <label for="pizzaSelect" class="form-label">Seleziona Pizza</label>
                         <select id="pizzaSelect" th:field="*{pizza.id}" class="form-select" required>
-                            <option value="">-- Seleziona una pizza --</option>
-                            <option th:each="p : ${pizze}" th:value="${p.id}" th:text="${p.name}"></option>
+                            <option value=""> Seleziona una pizza </option>
+                            <option th:each="pizza : ${pizze}" th:value="${pizza.id}" th:text="${pizza.name}"></option>
+                            <!--per ogni pizza presente nelle nostre pizze, dammi l'id e il nome di quella pizza-->
                         </select>
                         <div th:if="${#fields.hasErrors('pizza.id')}" class="invalid-feedback d-block">
                             <ul>
@@ -50,7 +51,9 @@
                     </div>
 
                     <!-- Pizza pre-selezionata -->
-                    <input type="hidden" th:if="${pizza != null}" th:field="*{pizza.id}" />
+                    <input type="hidden" th:if="${pizza != null}" th:field="*{pizza.id}" /> <!-- se ho scelto di creare l'offerta direttamente 
+                    dalla show della pizza, 
+                    allora parte da qua la mia offerta/create-->
 
                     <!-- Titolo -->
                     <div class="mb-3">

@@ -6,13 +6,15 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
-
+ 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http)
             throws Exception {
@@ -23,7 +25,9 @@ public class SecurityConfiguration {
                 .requestMatchers("/ingredienti", "/ingredienti/**").hasAuthority("ADMIN")
                 .requestMatchers("/pizzas", "/pizzas/**").hasAnyAuthority("USER", "ADMIN")
                 .requestMatchers("/**").permitAll())
-                .formLogin(Customizer.withDefaults());
+                .formLogin(Customizer.withDefaults())
+                .cors(cors-> cors.disable())//da approffondire
+                .csrf(csrf -> csrf.disable());//da approffondire
 
         return http.build();
     }

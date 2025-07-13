@@ -21,6 +21,9 @@ public class DataBaseUserDetails implements UserDetails {
         this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
+
+        //popolo le authorities
+        
         this.authorities = new HashSet<GrantedAuthority>();
 
         for (Role role : user.getRoles()) {
@@ -35,6 +38,8 @@ public class DataBaseUserDetails implements UserDetails {
         return this.authorities;
 
     }
+
+    //overide perchè sono metodi astratti della UserDetails
 
     @Override
     public String getPassword() {
